@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boletín Informativo</title>
+    <style>
+        /* Estilos generales y adaptación para móviles */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 10px;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        /* Estilo de la hoja de papel */
+        .page {
+            background-color: #fff;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow-x: hidden;
+        }
+        /* Encabezado */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        .placeholder-box {
+            border: 2px dashed #ccc;
+            padding: 10px;
+            text-align: center;
+            color: #999;
+            font-size: 11px;
+            border-radius: 8px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-title {
+            text-align: center;
+            flex: 1 1 200px;
+        }
+        h2 { font-size: 18px; margin: 5px 0; }
+        h3, h4 { margin: 8px 0; text-align: center; font-size: 14px; color: #111;}
+        
+        .header-inputs {
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* Campos de texto en línea que se adaptan */
+        .inline-field {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin-bottom: 12px;
+            gap: 5px;
+            width: 100%;
+        }
+        .inline-field label {
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .inline-field input[type="text"] {
+            flex-grow: 1;
+            min-width: 100px;
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            background: transparent;
+            padding-bottom: 2px;
+        }
+        
+        /* Grupo de campos (Edad, Sexo, etc) */
+        .flex-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+        }
+        .flex-group .inline-field {
+            flex: 1 1 100px;
+            margin-bottom: 8px;
+        }
+
+        /* Áreas de texto */
+        .textarea-group {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .textarea-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 4px;
+            text-decoration: underline;
+            font-size: 13px;
+        }
+        textarea {
+            width: 100%;
+            height: 65px;
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        /* Tablas adaptables */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            min-width: 500px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: left;
+            font-size: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+        /* Columna de indicadores más ancha */
+        td.indicator-cell {
+            width: 65%; 
+        }
+        td.indicator-cell input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            background: transparent;
+        }
+        td.check-cell {
+            text-align: center;
+            width: 7%;
+        }
+        td.check-cell input[type="radio"] {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        /* Escala y pie de página */
+        .escala {
+            font-size: 11px;
+            margin-bottom: 12px;
+            text-align: justify;
+            line-height: 1.3;
+        }
+        .lema {
+            text-align: center;
+            margin-bottom: 25px;
+            font-style: italic;
+            font-size: 13px;
+        }
+        .lema input {
+            width: 80%;
+            text-align: center;
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+            font-style: italic;
+            margin-top: 5px;
+            background: transparent;
+        }
+        .firmas {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .firma-linea {
+            border-top: 1px solid #000;
+            width: 180px;
+            text-align: center;
+            padding-top: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Botón de imprimir */
+        .print-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 20px auto;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Formato de impresión real y optimización de saltos de página */
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .container { max-width: 100%; }
+            .page { 
+                box-shadow: none; 
+                border: none; 
+                margin: 0; 
+                padding: 10px 20px; 
+                page-break-after: auto; 
+            }
+            .print-btn { display: none; }
+            input[type="text"]::placeholder, textarea::placeholder { color: transparent; }
+            .table-responsive { overflow-x: visible; }
+            
+            /* Fuerza a que el Área R.E.D.A. comience obligatoriamente en la Hoja 2 */
+            .salto-hoja-dos {
+                page-break-before: always !important;
+            }
+
+            /* Evita que las firmas queden huérfanas en una página separada */
+            .firmas, .lema, .escala {
+                page-break-inside: avoid;
+            }
+            /* Evita que los bloques de tablas se corten maliciosamente */
+            h4, .table-responsive {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="print-btn" onclick="window.print()">🖨️ Guardar PDF / Imprimir</button>
+
+    <div class="page">
+        <div class="header">
+            <div class="placeholder-box">Logo Institucional</div>
+            <div class="header-title">
+                <h2>Boletín Informativo<br>Año Escolar: <input type="text" placeholder="Ej. 2025 - 2026" style="width: 110px; border:none; border-bottom: 1px solid #000; outline: none; text-align: center; font-size: 18px; font-weight: bold; font-family: Arial, sans-serif;"></h2>
+                <div class="header-inputs">
+                    <span>Grupo: <input type="text" style="width: 40px; border:none; border-bottom: 1px solid #000; outline: none;"></span>
+                    <span>Momento: <input type="text" style="width: 40px; border:none; border-bottom: 1px solid #000; outline: none;"></span>
+                </div>
+            </div>
+            <div style="width: 80px;"></div> 
+        </div>
+
+        <div class="inline-field">
+            <label>Nombre y Apellido:</label>
+            <input type="text" placeholder="Escribe aquí...">
+        </div>
+        
+        <div class="flex-group">
+            <div class="inline-field">
+                <label>Edad:</label>
+                <input type="text">
+            </div>
+            <div class="inline-field">
+                <label>Sexo:</label>
+                <input type="text">
+            </div>
+            <div class="inline-field">
+                <label>Sección:</label>
+                <input type="text">
+            </div>
+            <div class="inline-field" style="flex-grow: 2;">
+                <label>Docente:</label>
+                <input type="text">
+            </div>
+        </div>
+
+        <div class="inline-field">
+            <label>Nombre del proyecto:</label>
+            <input type="text">
+        </div>
+
+        <div class="textarea-group">
+            <label>Ser y convivir:</label>
+            <textarea placeholder="Escribe aquí los detalles..."></textarea>
+        </div>
+
+        <h4>Área de Formación P, S, y, C</h4>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicadores</th>
+                        <th>EX</th>
+                        <th>C</th>
+                        <th>I</th>
+                        <th>NR</th>
+                        <th>SL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row1" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row1" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row1" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row1" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row1" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row2" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row2" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row2" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row2" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row2" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row3" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row3" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row3" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row3" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row3" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row4" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row4" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row4" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row4" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row4" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row5" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row5" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row5" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row5" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row5" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row6" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row6" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row6" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row6" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row6" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row7" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row7" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row7" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row7" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row7" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row8" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row8" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row8" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row8" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row8" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row9" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row9" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row9" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row9" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row9" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row10" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row10" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row10" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row10" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row10" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row11" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row11" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row11" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row11" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row11" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="psic_row12" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row12" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row12" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row12" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="psic_row12" value="SL"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4 class="salto-hoja-dos">Área R.E.D.A.</h4>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicadores</th>
+                        <th>EX</th>
+                        <th>C</th>
+                        <th>I</th>
+                        <th>NR</th>
+                        <th>SL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row1" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row1" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row1" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row1" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row1" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row2" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row2" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row2" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row2" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row2" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row3" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row3" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row3" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row3" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row3" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row4" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row4" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row4" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row4" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row4" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row5" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row5" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row5" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row5" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row5" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row6" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row6" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row6" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row6" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row6" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row7" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row7" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row7" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row7" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row7" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row8" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row8" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row8" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row8" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row8" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row9" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row9" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row9" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row9" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row9" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="reda_row10" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row10" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row10" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row10" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="reda_row10" value="SL"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Área Complementaria: Música, Deporte y Recreación, Educación Religiosa Escolar</h4>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicadores</th>
+                        <th>EX</th>
+                        <th>C</th>
+                        <th>I</th>
+                        <th>NR</th>
+                        <th>SL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="comp_row1" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row1" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row1" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row1" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row1" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="comp_row2" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row2" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row2" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row2" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row2" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="comp_row3" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row3" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row3" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row3" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row3" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="comp_row4" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row4" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row4" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row4" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row4" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="comp_row5" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row5" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row5" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row5" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row5" value="SL"></td>
+                    </tr>
+                    <tr>
+                        <td class="indicator-cell"><input type="text" placeholder="Escribe un indicador..."></td>
+                        <td class="check-cell"><input type="radio" name="comp_row6" value="EX"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row6" value="C"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row6" value="I"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row6" value="NR"></td>
+                        <td class="check-cell"><input type="radio" name="comp_row6" value="SL"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="textarea-group">
+            <label>Observaciones:</label>
+            <textarea placeholder="Escribe las observaciones generales aquí..."></textarea>
+        </div>
+
+        <div class="escala">
+            <strong>Escala literal:</strong> Excelente (EX), Consolidado (C), Inicial (I), Necesita refuerzo (NR), Sin lograr (SL)
+        </div>
+
+        <div class="lema">
+            "Lema Institucional del año escolar" <br>
+            <input type="text" placeholder="Escribe el lema aquí...">
+        </div>
+
+        <div class="firmas">
+            <div class="firma-linea">Sello de la institución</div>
+            <div class="firma-linea">Firma docente</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
